@@ -30,24 +30,24 @@ function WeatherArchive({ city, archive }) {
         </table>
       </div>
       <h2 className="temperature-graph-title">Temperature change graph for {city}</h2>
-      <LineChart
-        width={800}
-        height={350}
-        data={archive}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="day" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="avg_temperature" stroke="#3dd49a" strokeWidth={4} activeDot={{ r: 8 }} />
-      </LineChart>
+      <ResponsiveContainer aspect={1.7}>
+        <LineChart
+          data={archive}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="day" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="avg_temperature" stroke="#3dd49a" strokeWidth={4} activeDot={{ r: 8 }} />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 }

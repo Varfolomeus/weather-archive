@@ -13,7 +13,7 @@ body {
 
 .App {
   width: 100vw;
-  height: 85vh;
+  /* height: 85vh; */
   display: flex;
   align-items: top;
   justify-content: center;
