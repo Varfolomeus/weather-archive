@@ -4,7 +4,12 @@ import './App.css';
 import Cities from './components/Cities';
 import WeatherArchive from './components/WeatherArchive';
 
-const { REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY, REACT_APP_NINJA_API_CITY_KEY, REACT_APP_OPEN_WEATHER_API_KEY } = process.env;
+const {
+  REACT_APP_SUPABASE_URL,
+  REACT_APP_SUPABASE_KEY,
+  REACT_APP_NINJA_API_CITY_KEY,
+  REACT_APP_OPEN_WEATHER_API_KEY,
+} = process.env;
 
 function App() {
   const [citiesList, setCitiesList] = React.useState([]);
@@ -43,7 +48,7 @@ function App() {
     }
     return data;
   };
-
+  // console.log('city', city);
   const getCitiesarchive = async (city) => {
     let countryCode = '';
     let parentData = [];
@@ -119,7 +124,12 @@ function App() {
   const getWeatherFromServer = async (city, countryCode) => {
     // debugger;
     return await fetch(
-      'https://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + countryCode + '&APPID=' + REACT_APP_OPEN_WEATHER_API_KEY
+      'https://api.openweathermap.org/data/2.5/weather?q=' +
+        city +
+        ',' +
+        countryCode +
+        '&APPID=' +
+        REACT_APP_OPEN_WEATHER_API_KEY
     );
   };
 
