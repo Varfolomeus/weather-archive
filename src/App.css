@@ -96,18 +96,19 @@ body {
   color: #2c4027;
   padding-left: 0.5rem;
   background-color: beige;
-  border-radius: 15rem;
+  border-radius: 0.3rem;
 }
 
 .city {
   margin-top: .3rem;
   background-color: #daebd6;
+  padding-left: 0.3rem;
 }
 
 .button {
   margin-top: 0.5rem;
   align-self: center;
-  background-color: rgb(188, 49, 25);
+  background-color: #227950bd;
   height: 60px;
   width: 12rem;
   border: 1px solid antiquewhite;
