@@ -120,7 +120,7 @@ body {
   color: antiquewhite
 }
 .data-cell{
-  height: 10rem;
+  max-height: 10rem;
   width: 420px;
   overflow: auto;
 }

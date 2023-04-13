@@ -8,7 +8,7 @@ function WeatherArchive({ city, archive }) {
   }
   return (
     <div>
-     <h3 className='archive-body-header'>Archived data average for {city}</h3> 
+      <h3 className="archive-body-header">Archived data average for {city}</h3>
       <table className="archive-table-container">
         <tbody>
           <tr>
@@ -18,7 +18,7 @@ function WeatherArchive({ city, archive }) {
           </tr>
         </tbody>
       </table>
-      <div className='data-cell'>
+      <div className="data-cell">
         <table className="archive-table-container archive-table-body">
           <tbody>
             {archive.map((rec, i) => (
@@ -43,13 +43,40 @@ function WeatherArchive({ city, archive }) {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="day" />
-          <YAxis />
-          <YAxis yAxisId="right" orientation="right" />
+          <XAxis dataKey="day" label={{ value: `Recorded at`, position: 'insideBottomRight', dy:17 }} />
+          <YAxis
+            label={{ value: `Temperature, °C`, fill: '#3dd49a', position: 'insideBottomCenter', angle: -90, dx: -10 }}
+          />
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+            label={{
+              value: `Wind speed, m/s`,
+              position: 'insideBottomCenter',
+              fill: '#82ca00',
+              angle: -90,
+              dx: 10,
+            }}
+          />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="avg_temperature" stroke="#3dd49a" strokeWidth={4} activeDot={{ r: 8 }} />
-          <Line yAxisId="right" type="monotone" dataKey="wind" stroke="#82ca00" strokeWidth={3} activeDot={{ r: 8 }} />
+          <Line
+            type="monotone"
+            dataKey="avg_temperature"
+            stroke="#3dd49a"
+            strokeWidth={4}
+            activeDot={{ r: 8 }}
+            label={{ position: 'insideBottomLeft', fill: '#3dd49a', angle: -90, dy: -10 }}
+          />
+          <Line
+            yAxisId="right"
+            type="monotone"
+            dataKey="wind"
+            stroke="#82ca00"
+            strokeWidth={3}
+            activeDot={{ r: 8 }}
+            label={{ position: 'insideBottomLeft', fill: '#82ca00', angle: -90, dy: -10 }}
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>
