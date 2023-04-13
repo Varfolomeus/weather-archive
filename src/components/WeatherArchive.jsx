@@ -8,28 +8,30 @@ function WeatherArchive({ city, archive }) {
   }
   return (
     <div>
-      Archived data for {city}
+     <h3 className='archive-body-header'>Archived data average for {city}</h3> 
       <table className="archive-table-container">
         <tbody>
           <tr>
-            <th className="archive-table left-column">Recorded at</th>
+            <th className="archive-table">Recorded at</th>
             <th className="archive-table">Temperature, &deg;C</th>
+            <th className="archive-table">Wind speed, m/s</th>
           </tr>
         </tbody>
       </table>
-      <div className="archive-table-wrapper">
-        <table className="archive-table-container">
+      <div className='data-cell'>
+        <table className="archive-table-container archive-table-body">
           <tbody>
             {archive.map((rec, i) => (
-              <tr className="archive-table-container" key={i + 'rec'}>
+              <tr key={i + 'rec'}>
                 <td className="archive-table">{rec.day}</td>
                 <td className="archive-table">{rec.avg_temperature}</td>
+                <td className="archive-table">{rec.wind}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <h2 className="temperature-graph-title">Temperature change graph for {city}</h2>
+      <h2 className="temperature-graph-title">Archived data change graph for {city}</h2>
       <ResponsiveContainer aspect={1.7}>
         <LineChart
           data={archive}
@@ -43,9 +45,11 @@ function WeatherArchive({ city, archive }) {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="day" />
           <YAxis />
+          <YAxis yAxisId="right" orientation="right" />
           <Tooltip />
           <Legend />
           <Line type="monotone" dataKey="avg_temperature" stroke="#3dd49a" strokeWidth={4} activeDot={{ r: 8 }} />
+          <Line yAxisId="right" type="monotone" dataKey="wind" stroke="#82ca00" strokeWidth={3} activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>
     </div>

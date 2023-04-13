@@ -15,7 +15,7 @@ function City({ city, activationIndex, active, setActive, setcityInputValue, set
       }}
     >
       <span>{city.city}</span>
-      <span> average {city.avg_temperature}</span>
+      <span> | ~ {city.avg_temperature} &deg;C</span>
     </div>
   );
 }

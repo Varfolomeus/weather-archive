@@ -26,9 +26,9 @@ const Cities = ({ citiesList, setCity }) => {
   return (
     <div className="citylist">
       <div>
-        <form>
-          <input
-            className="city-search-input"
+        <form data-tooltip="interruprs less then 3s">
+          <input 
+            className="cheet-sheet city-search-input"
             type="text"
             id="city_name"
             placeholder="Search city"

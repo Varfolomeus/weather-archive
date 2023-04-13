@@ -40,7 +40,7 @@ function App() {
   const getUpdatedCitytData = async (city) => {
     let { data, error } = await supabase
       .from('city_records')
-      .select('city, day, avg_temperature, weather_object')
+      .select('city, day, avg_temperature, wind')
       .eq('city', city)
       .order('day', { ascending: true });
     if (error) {
@@ -84,7 +84,7 @@ function App() {
           }
           (await getWeatherFromServer(cityFromNinjaAPI, countryCode)).json().then(async (data1) => {
             // debugger;
-            const weatherObject = JSON.stringify(data1);
+            const weatherObject = data1;
             const cityToStore = cityFromNinjaAPI;
             const temperatureToStore = (data1.main.temp - 273.15).toFixed(2);
             const timeStampToStore = new Date(data1.dt * 1000).toISOString().toLocaleString('zh-TW');
