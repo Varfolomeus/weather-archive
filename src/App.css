@@ -140,8 +140,9 @@ body {
   content: attr(data-tooltip);
   /* Выводим текст */
   position: absolute;
+  text-align: center;
   /* Абсолютное позиционирование */
-  width: 180px;
+  width: 210px;
   /* Ширина подсказки */
   left: 2rem;
   top: 0;

@@ -26,7 +26,7 @@ const Cities = ({ citiesList, setCity }) => {
   return (
     <div className="citylist">
       <div>
-        <form data-tooltip="interruprs less then 3s">
+        <form data-tooltip="interruptions less than 3 s">
           <input 
             className="cheet-sheet city-search-input"
             type="text"
