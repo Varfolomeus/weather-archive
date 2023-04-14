@@ -40,7 +40,7 @@ function App() {
   const getUpdatedCitytData = async (city) => {
     let { data, error } = await supabase
       .from('city_records')
-      .select('city, day, avg_temperature, wind')
+      .select('city, day, avg_temperature, wind, avg_weather_cond, avg_weather_descr')
       .eq('city', city)
       .order('day', { ascending: true });
     if (error) {
