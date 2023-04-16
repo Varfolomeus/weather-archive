@@ -15,9 +15,11 @@ body {
   width: 100vw;
   /* height: 85vh; */
   display: flex;
+  /* border: 2px dotted rgb(8, 70, 41); */
   align-items: top;
   justify-content: center;
   flex-direction: row;
+  /* position: relative; */
 }
 
 .leftside {
@@ -28,6 +30,9 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: #2c4027a5 0px 5px 10px;
+  position: sticky;
+  top:3%;
+  /* border: 2px dotted coral; */
 }
 
 .citylist {
@@ -71,7 +76,7 @@ body {
 .rightside {
   padding-left: 2rem;
   width: 50vw;
-  height: 82vh;
+  /* border: 2px dotted coral; */
 }
 
 
@@ -119,18 +124,22 @@ body {
   cursor: pointer;
   color: antiquewhite
 }
-.data-cell{
+
+.data-cell {
   max-height: 10rem;
   width: 420px;
   overflow: auto;
 }
+
 .active-record {
   background-color: darkblue;
   color: antiquewhite
 }
-.archive-body-header{
+
+.archive-body-header {
   margin: 1rem 0 0.3rem 0;
 }
+
 [data-tooltip] {
   position: relative;
   /* Относительное позиционирование */

@@ -11,11 +11,11 @@ const {
   REACT_APP_OPEN_WEATHER_API_KEY,
 } = process.env;
 
-function App() {
+const App = React.memo(() => {
   const [citiesList, setCitiesList] = React.useState([]);
   const [weatherArchive, setWeatherArchive] = React.useState([]);
   const [city, setCity] = React.useState('');
-  const supabase = createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY);
+  const supabase = React.useMemo(() =>createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY));
   // console.log(REACT_APP_NINJA_API_CITY_KEY);
   React.useEffect(() => {
     getCitiesList().then((data) => setCitiesList(data));
@@ -41,8 +41,7 @@ function App() {
     let { data, error } = await supabase
       .from('city_records')
       .select('city, day, avg_temperature, wind, avg_weather_cond, avg_weather_descr')
-      .eq('city', city)
-      .order('day', { ascending: true });
+      .eq('city', city);
     if (error) {
       console.log('someting wrong with data', error);
     }
@@ -154,7 +153,7 @@ function App() {
   // console.log(citiesList);
 
   return (
-    <div>
+    <div className='wrapper'>
       <h1 className="main-header">Hello from weather archive!</h1>
       <div className="App">
         <div className="leftside">
@@ -180,6 +179,6 @@ function App() {
       </div>
     </div>
   );
-}
+});
 
 export default App;
