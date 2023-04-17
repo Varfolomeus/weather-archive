@@ -1,9 +1,8 @@
 import React from 'react';
 import City from './City';
 
-const Cities = ({ citiesList, setCity }) => {
+const Cities = ({active, setActive, citiesList, setCity }) => {
   const [cityInputValue, setcityInputValue] = React.useState('');
-  const [active, setActive] = React.useState(null);
   React.useEffect(() => {
     if (cityInputValue) {
       const timer = setTimeout(() => {

@@ -15,7 +15,8 @@ const App = React.memo(() => {
   const [citiesList, setCitiesList] = React.useState([]);
   const [weatherArchive, setWeatherArchive] = React.useState([]);
   const [city, setCity] = React.useState('');
-  const supabase = React.useMemo(() =>createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY));
+  const [active, setActive] = React.useState(null);
+  const supabase = React.useMemo(() => createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY));
   // console.log(REACT_APP_NINJA_API_CITY_KEY);
   React.useEffect(() => {
     getCitiesList().then((data) => setCitiesList(data));
@@ -153,12 +154,41 @@ const App = React.memo(() => {
   // console.log(citiesList);
 
   return (
-    <div className='wrapper'>
+    <div className="wrapper">
       <h1 className="main-header">Hello from weather archive!</h1>
       <div className="App">
         <div className="leftside">
           <h2 className="left-side-header">Cities list</h2>
-          {citiesList && <Cities citiesList={citiesList} setCity={setCity} />}
+          <div className="lister">
+            
+            <h3
+              onClick={() => {
+                if (active === null || active === 0) {
+                  setActive(citiesList.length - 1);
+                  setCity(citiesList[citiesList.length - 1].city);
+                } else {
+                  setActive(active - 1);
+                  setCity(citiesList[active - 1].city);
+                }
+              }}
+              className="lister-button"
+            >prev
+            </h3>
+
+            <h3
+              onClick={() => {
+                if (active === null || active === citiesList.length - 1) {
+                  setActive(0);
+                  setCity(citiesList[0].city);
+                } else {
+                  setActive(active + 1);
+                  setCity(citiesList[active + 1].city);
+                }
+              }}
+              className="lister-button triangle"
+            >next</h3>
+          </div>
+          {citiesList && <Cities active={active} citiesList={citiesList} setActive={setActive} setCity={setCity} />}
           <button
             className="button"
             onClick={() => {
@@ -171,9 +201,16 @@ const App = React.memo(() => {
         </div>
 
         <div className="rightside">
-          <h2>{city ? 'Chosen city - ' + city : 'Secect city'}</h2>
-          {city && weatherArchive && weatherArchive.length > 0 && (
-            <WeatherArchive city={city} archive={weatherArchive} />
+          <h2 className='archive-body-header'>{city ? 'Chosen city - ' + city : 'Secect city'}</h2>
+          {citiesList && city && weatherArchive && weatherArchive.length > 0 && (
+            <WeatherArchive
+              city={city}
+              active={active}
+              setCity={setCity}
+              citiesList={citiesList}
+              setActive={setActive}
+              archive={weatherArchive}
+            />
           )}
         </div>
       </div>
