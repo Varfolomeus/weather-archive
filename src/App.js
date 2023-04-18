@@ -166,7 +166,7 @@ const App = React.memo(() => {
                   setActive(citiesList.length - 1);
                   setCity(citiesList[citiesList.length - 1].city);
                 } else {
-                  setActive(active - 1);
+                  setActive((prev) => prev - 1);
                   setCity(citiesList[active - 1].city);
                 }
               }}
@@ -180,7 +180,7 @@ const App = React.memo(() => {
                   setActive(0);
                   setCity(citiesList[0].city);
                 } else {
-                  setActive(active + 1);
+                  setActive((prev) => prev + 1);
                   setCity(citiesList[active + 1].city);
                 }
               }}
@@ -189,14 +189,7 @@ const App = React.memo(() => {
               next
             </h3>
           </div>
-          {citiesList && (
-            <Cities
-              active={active}
-              citiesList={citiesList}
-              setActive={setActive}
-              setCity={setCity}
-            />
-          )}
+          {citiesList && <Cities active={active} citiesList={citiesList} setActive={setActive} setCity={setCity} />}
           <button
             className="button"
             onClick={() => {

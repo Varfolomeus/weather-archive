@@ -40,7 +40,7 @@ function WeatherArchive({ city, archive, citiesList, setCity, active, setActive 
               setActive(citiesList.length - 1);
               setCity(citiesList[citiesList.length - 1].city);
             } else {
-              setActive(active - 1);
+              setActive((prev) => prev - 1);
               setCity(citiesList[active - 1].city);
             }
           }}
@@ -166,8 +166,8 @@ function WeatherArchive({ city, archive, citiesList, setCity, active, setActive 
               setActive(0);
               setCity(citiesList[0].city);
             } else {
-              setActive(active + 1);
-              setCity(citiesList[active + 1].city);
+              setActive((prev) => prev + 1);
+              setCity( citiesList[active + 1].city);
             }
           }}
           className="lister-button-rotated90 right-side"
