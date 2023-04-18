@@ -11,12 +11,12 @@ const {
   REACT_APP_OPEN_WEATHER_API_KEY,
 } = process.env;
 
-const App = React.memo(() => {
+function App () {
   const [citiesList, setCitiesList] = React.useState([]);
   const [weatherArchive, setWeatherArchive] = React.useState([]);
   const [city, setCity] = React.useState('');
   const [active, setActive] = React.useState(null);
-  const supabase = React.useMemo(() => createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY));
+  const supabase = React.useMemo(() => createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY),[REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY]);
   // console.log(REACT_APP_NINJA_API_CITY_KEY);
   React.useEffect(() => {
     getCitiesList().then((data) => setCitiesList(data));
@@ -217,6 +217,6 @@ const App = React.memo(() => {
       </div>
     </div>
   );
-});
+};
 
-export default App;
+export default React.memo(App);
