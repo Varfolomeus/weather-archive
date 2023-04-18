@@ -1,7 +1,11 @@
 import React from 'react';
 import City from './City';
 
-const Cities = ({active, setActive, citiesList, setCity }) => {
+const Cities = ({ active, setActive, citiesList, setCity }) => {
+  const listRef = React.useRef();
+  const scrollDown = (active) => {
+    listRef.current.children[active].scrollIntoView({ behavior: 'smooth', block: "center", inline: "start" });
+  };
   const [cityInputValue, setcityInputValue] = React.useState('');
   React.useEffect(() => {
     if (cityInputValue) {
@@ -13,9 +17,6 @@ const Cities = ({active, setActive, citiesList, setCity }) => {
     }
   }, [cityInputValue]);
 
-  // console.log('citiesList', citiesList);
-  // console.log('city', city);
-
   const changeHandler = (e) => {
     setcityInputValue(e.target.value);
     e.stopPropagation();
@@ -23,10 +24,10 @@ const Cities = ({active, setActive, citiesList, setCity }) => {
   };
   // console.log(citiesList);
   return (
-    <div className="citylist">
+    <div className="citylist" ref={listRef}>
       <div>
         <form data-tooltip="interruptions less than 3 s">
-          <input 
+          <input
             className="cheet-sheet city-search-input"
             type="text"
             id="city_name"
@@ -40,6 +41,7 @@ const Cities = ({active, setActive, citiesList, setCity }) => {
         citiesList.map((city, i) => (
           <City
             key={i + 'city'}
+            scrollDown={scrollDown}
             setcityInputValue={setcityInputValue}
             activationIndex={i}
             active={active}

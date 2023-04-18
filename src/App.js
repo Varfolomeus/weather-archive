@@ -160,7 +160,6 @@ const App = React.memo(() => {
         <div className="leftside">
           <h2 className="left-side-header">Cities list</h2>
           <div className="lister">
-            
             <h3
               onClick={() => {
                 if (active === null || active === 0) {
@@ -172,9 +171,9 @@ const App = React.memo(() => {
                 }
               }}
               className="lister-button"
-            >prev
+            >
+              prev
             </h3>
-
             <h3
               onClick={() => {
                 if (active === null || active === citiesList.length - 1) {
@@ -186,9 +185,18 @@ const App = React.memo(() => {
                 }
               }}
               className="lister-button triangle"
-            >next</h3>
+            >
+              next
+            </h3>
           </div>
-          {citiesList && <Cities active={active} citiesList={citiesList} setActive={setActive} setCity={setCity} />}
+          {citiesList && (
+            <Cities
+              active={active}
+              citiesList={citiesList}
+              setActive={setActive}
+              setCity={setCity}
+            />
+          )}
           <button
             className="button"
             onClick={() => {
@@ -201,7 +209,7 @@ const App = React.memo(() => {
         </div>
 
         <div className="rightside">
-          <h2 className='archive-body-header'>{city ? 'Chosen city - ' + city : 'Secect city'}</h2>
+          <h2 className="archive-body-header">{city ? 'Chosen city - ' + city : 'Secect city'}</h2>
           {citiesList && city && weatherArchive && weatherArchive.length > 0 && (
             <WeatherArchive
               city={city}
