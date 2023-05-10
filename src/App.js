@@ -67,7 +67,7 @@ function App() {
       } else {
         gap = ((new Date() - new Date(parentData[0].timestamp)) / 3600000).toFixed(2);
         countryCode = parentData[0].weather_object.sys.country;
-        console.log('gap', gap, 'countryCode', countryCode);
+        // console.log('gap', gap, 'countryCode', countryCode);
       }
       // console.log('gap', gap);
       if (gap > 2 && parentData.length !== 0) {
