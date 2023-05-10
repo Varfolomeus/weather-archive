@@ -9,6 +9,7 @@ body {
   font-family: 'Rubik', sans-serif;
   box-sizing: border-box;
   background-color: #daebd6;
+  overscroll-behavior: none;
 }
 
 .App {
@@ -19,6 +20,7 @@ body {
   align-items: top;
   justify-content: center;
   flex-direction: row;
+  overscroll-behavior: none;
   /* border: 2px dotted coral; */
 
 }

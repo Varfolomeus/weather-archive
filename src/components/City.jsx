@@ -1,29 +1,22 @@
 import React from 'react';
 
-function City({
-  city,
-  activationIndex,
-  active,
-  scrollDown,
-  setActive,
-  setcityInputValue,
-  setCity,
-}) {
-  if (activationIndex === active) {
+function City({ city, activationIndex, active, scrollDown, setActive, setcityInputValue, setCity }) {
+  if (activationIndex === active.cityNumber) {
     scrollDown(active);
   }
 
   const setCity1 = (city, e) => {
-    setActive(activationIndex);
+    setActive({ cityNumber: activationIndex, activationEvent: e });
     setCity(city);
     setcityInputValue('');
-    scrollDown(activationIndex);
+    scrollDown({ cityNumber: activationIndex, activationEvent: e });
   };
   return (
     <div
-      className={activationIndex === active ? 'active-record city' : 'city'}
+      className={activationIndex === active.cityNumber ? 'active-record city' : 'city'}
       onClick={(e) => {
         setCity1(city.city, e);
+        e.stopPropagation();
       }}
     >
       <span>{city.city}</span>

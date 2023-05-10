@@ -35,13 +35,17 @@ function WeatherArchive({ city, archive, citiesList, setCity, active, setActive 
       </div>
       <div className="grapf-container">
         <div
-          onClick={() => {
-            if (active === null || active === 0) {
-              setActive(citiesList.length - 1);
+          onClick={(e) => {
+            if (active.cityNumber === null || active.cityNumber === 0) {
+              setActive((prev) => {
+                return { cityNumber: prev.cityNumber - 1, activationEvent: e };
+              });
               setCity(citiesList[citiesList.length - 1].city);
             } else {
-              setActive((prev) => prev - 1);
-              setCity(citiesList[active - 1].city);
+              setActive((prev) => {
+                return { cityNumber: prev.cityNumber - 1, activationEvent: e };
+              });
+              setCity(citiesList[active.cityNumber - 1].city);
             }
           }}
           className="lister-button-rotated90 left-side"
@@ -161,13 +165,15 @@ function WeatherArchive({ city, archive, citiesList, setCity, active, setActive 
           </div>
         </div>
         <div
-          onClick={() => {
-            if (active === null || active === citiesList.length - 1) {
-              setActive(0);
+          onClick={(e) => {
+            if (active.cityNumber === null || active.cityNumber === citiesList.length - 1) {
+              setActive({ cityNumber: 0, activationEvent: e });
               setCity(citiesList[0].city);
             } else {
-              setActive((prev) => prev + 1);
-              setCity( citiesList[active + 1].city);
+              setActive((prev) => {
+                return { cityNumber: prev.cityNumber + 1, activationEvent: e };
+              });
+              setCity(citiesList[active.cityNumber + 1].city);
             }
           }}
           className="lister-button-rotated90 right-side"

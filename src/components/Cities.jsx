@@ -3,15 +3,23 @@ import City from './City';
 
 const Cities = ({ active, setActive, citiesList, setCity }) => {
   const listRef = React.useRef();
-  const scrollDown = (active) => {
-    listRef.current.children[active].scrollIntoView({ behavior: 'smooth', block: "center", inline: "start" });
+  const scrollDown = (active) => {  
+      // console.log(active);
+
+    listRef.current.children[active.cityNumber].scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'start',
+    });
+    active.activationEvent.stopPropagation();
+    // listRef.current.children[active].addEventListener('scroll', () => console.log('rrrrr'));
   };
   const [cityInputValue, setcityInputValue] = React.useState('');
   React.useEffect(() => {
     if (cityInputValue) {
       const timer = setTimeout(() => {
         setCity(cityInputValue);
-        setActive('');
+        setActive({ cityNumber: null, activationEvent: null });
       }, 3000);
       return () => clearTimeout(timer);
     }
