@@ -230,7 +230,7 @@ function App() {
         </div>
 
         <div className="rightside">
-          <h2 className="archive-body-header">{city ? 'Chosen city - ' + city : 'Secect city'}</h2>
+          <h2 className="archive-body-header">{city ? 'Chosen city - ' + city : 'Select city'}</h2>
           {citiesList && city && weatherArchive && weatherArchive.length > 0 && (
             <WeatherArchive
               city={city}
@@ -247,4 +247,4 @@ function App() {
   );
 }
 
-export default React.memo(App);
+export default App;
