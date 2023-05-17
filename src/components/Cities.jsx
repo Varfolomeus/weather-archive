@@ -1,14 +1,23 @@
 import React from 'react';
 import City from './City';
 
-const Cities = ({ active, setActive, citiesList, setCity }) => {
+const Cities = ({ active, setActive, isScrollingToTop, setIsScrollingToTop, citiesList, setCity }) => {
   const listRef = React.useRef();
-  const scrollDown = (active) => {  
-      // console.log(active);
-
-    listRef.current.children[active.cityNumber].scrollIntoView({
+  const scrollDown = (active) => {
+    let paddingForScroll=5;
+    // console.log('setIsScrollingToTop',setIsScrollingToTop);
+    // console.log('isSrollingToTop', isScrollingToTop);
+    // setting padding in rows for scrollIntoView to make visible strings between activated element and top-bottom borders
+    let listNumber = active.cityNumber;
+    if (active.cityNumber + (isScrollingToTop ? -paddingForScroll : paddingForScroll) < paddingForScroll) {
+      listNumber = 0;
+    } else if (active.cityNumber + (isScrollingToTop ? -paddingForScroll : paddingForScroll) > citiesList.length - paddingForScroll) {
+      listNumber = citiesList.length;
+    } else {listNumber = (active.cityNumber + (isScrollingToTop ? -paddingForScroll : paddingForScroll))}
+    // console.log('listNumber',listNumber);
+    listRef.current.children[listNumber].scrollIntoView({
       behavior: 'smooth',
-      block: 'center',
+      block: 'nearest',
       inline: 'start',
     });
     active.activationEvent.stopPropagation();
@@ -50,6 +59,7 @@ const Cities = ({ active, setActive, citiesList, setCity }) => {
           <City
             key={i + 'city'}
             scrollDown={scrollDown}
+            setIsScrollingToTop={setIsScrollingToTop}
             setcityInputValue={setcityInputValue}
             activationIndex={i}
             active={active}

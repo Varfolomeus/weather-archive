@@ -14,6 +14,7 @@ const {
 function App() {
   const [citiesList, setCitiesList] = React.useState([]);
   const [weatherArchive, setWeatherArchive] = React.useState([]);
+  const [isScrollingToTop, setIsScrollingToTop] = React.useState(false);
   const [city, setCity] = React.useState('');
   const [active, setActive] = React.useState({ cityNumber: null, activationEvent: null });
   const supabase = React.useMemo(() => createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY), [
@@ -187,12 +188,14 @@ function App() {
                 if (active.cityNumber === null || active.cityNumber === 0) {
                   setActive({ cityNumber: citiesList.length - 1, activationEvent: e });
                   setCity(citiesList[citiesList.length - 1].city);
+                  setIsScrollingToTop(false);
                 } else {
                   setActive((prev) => {
                     return { cityNumber: prev.cityNumber - 1, activationEvent: e };
                   });
                   // console.log(active);
                   setCity(citiesList[active.cityNumber - 1].city);
+                  setIsScrollingToTop(true);
                 }
               }}
               className="lister-button"
@@ -204,12 +207,14 @@ function App() {
                 if (active.cityNumber === null || active.cityNumber === citiesList.length - 1) {
                   setActive({ cityNumber: 0, activationEvent: e });
                   setCity(citiesList[0].city);
+                  setIsScrollingToTop(true);
                 } else {
                   setActive((prev) => {
                     return { cityNumber: prev.cityNumber + 1, activationEvent: e };
                   });
                   // console.log(active);
                   setCity(citiesList[active.cityNumber + 1].city);
+                  setIsScrollingToTop(false);
                 }
               }}
               className="lister-button"
@@ -217,7 +222,16 @@ function App() {
               next
             </h3>
           </div>
-          {citiesList && <Cities active={active} citiesList={citiesList} setActive={setActive} setCity={setCity} />}
+          {citiesList && (
+            <Cities
+              active={active}
+              citiesList={citiesList}
+              isScrollingToTop={isScrollingToTop}
+              setIsScrollingToTop={setIsScrollingToTop}
+              setActive={setActive}
+              setCity={setCity}
+            />
+          )}
           <button
             className="button"
             onClick={() => {
@@ -236,6 +250,7 @@ function App() {
               city={city}
               active={active}
               setCity={setCity}
+              setIsScrollingToTop={setIsScrollingToTop}
               citiesList={citiesList}
               setActive={setActive}
               archive={weatherArchive}

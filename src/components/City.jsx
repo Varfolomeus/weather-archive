@@ -1,10 +1,10 @@
 import React from 'react';
 
-function City({ city, activationIndex, active, scrollDown, setActive, setcityInputValue, setCity }) {
+function City({ city, activationIndex, active, scrollDown, setActive, setIsScrollingToTop, setcityInputValue, setCity }) {
   if (activationIndex === active.cityNumber) {
     scrollDown(active);
   }
-
+// console.log('setIsScrollingToTop',setIsScrollingToTop);
   const setCity1 = (city, e) => {
     setActive({ cityNumber: activationIndex, activationEvent: e });
     setCity(city);
@@ -17,6 +17,10 @@ function City({ city, activationIndex, active, scrollDown, setActive, setcityInp
       onClick={(e) => {
         setCity1(city.city, e);
         e.stopPropagation();
+        setIsScrollingToTop(prev=> {if (activationIndex !== active.cityNumber) {
+          return activationIndex < active.cityNumber
+        } else return prev;
+      })
       }}
     >
       <span>{city.city}</span>

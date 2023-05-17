@@ -1,7 +1,7 @@
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-function WeatherArchive({ city, archive, citiesList, setCity, active, setActive }) {
+function WeatherArchive({ city, archive, setIsScrollingToTop, citiesList, setCity, active, setActive }) {
   // console.log(city, archive);
   if (archive.length < 2) {
     archive.push(archive[0]);
@@ -37,15 +37,16 @@ function WeatherArchive({ city, archive, citiesList, setCity, active, setActive 
         <div
           onClick={(e) => {
             if (active.cityNumber === null || active.cityNumber === 0) {
-              setActive((prev) => {
-                return { cityNumber: prev.cityNumber - 1, activationEvent: e };
-              });
+              setActive({ cityNumber: citiesList.length - 1, activationEvent: e });
               setCity(citiesList[citiesList.length - 1].city);
+              setIsScrollingToTop(false);
             } else {
               setActive((prev) => {
                 return { cityNumber: prev.cityNumber - 1, activationEvent: e };
               });
+              // console.log(active);
               setCity(citiesList[active.cityNumber - 1].city);
+              setIsScrollingToTop(true);
             }
           }}
           className="lister-button-rotated90 left-side"
@@ -55,7 +56,7 @@ function WeatherArchive({ city, archive, citiesList, setCity, active, setActive 
         <div>
           <div>
             <h2 className="temperature-graph-title">Archived data change graph for {city}</h2>
-            <ResponsiveContainer aspect={1.7} maxHeight={1400}>
+            <ResponsiveContainer aspect={1.7} width={560}>
               <LineChart
                 data={archive}
                 margin={{
@@ -109,7 +110,7 @@ function WeatherArchive({ city, archive, citiesList, setCity, active, setActive 
               </LineChart>
             </ResponsiveContainer>
             <h2 className="temperature-graph-title">Archived weather conditions change graph for {city}</h2>
-            <ResponsiveContainer background={{ fill: 'rgba(0, 0, 0, 0.05)' }} aspect={1.7} maxHeight={1400}>
+            <ResponsiveContainer background={{ fill: 'rgba(0, 0, 0, 0.05)' }} aspect={1.7} width={500} >
               <LineChart
                 data={archive}
                 margin={{
@@ -169,11 +170,13 @@ function WeatherArchive({ city, archive, citiesList, setCity, active, setActive 
             if (active.cityNumber === null || active.cityNumber === citiesList.length - 1) {
               setActive({ cityNumber: 0, activationEvent: e });
               setCity(citiesList[0].city);
+              setIsScrollingToTop(true);
             } else {
               setActive((prev) => {
                 return { cityNumber: prev.cityNumber + 1, activationEvent: e };
               });
               setCity(citiesList[active.cityNumber + 1].city);
+              setIsScrollingToTop(false);
             }
           }}
           className="lister-button-rotated90 right-side"
