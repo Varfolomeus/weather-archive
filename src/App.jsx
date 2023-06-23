@@ -1,15 +1,13 @@
 import React from 'react';
 import { createClient } from '@supabase/supabase-js';
 import './App.css';
-import Cities from './components/Cities';
-import WeatherArchive from './components/WeatherArchive';
+import Cities from './assets/components/Cities';
+import WeatherArchive from './assets/components/WeatherArchive';
+import ArchiveTitle from './assets/components/ArchiveTitle';
 
-const {
-  REACT_APP_SUPABASE_URL,
-  REACT_APP_SUPABASE_KEY,
-  REACT_APP_NINJA_API_CITY_KEY,
-  REACT_APP_OPEN_WEATHER_API_KEY,
-} = process.env;
+export const weatherContext = React.createContext();
+
+const { VITE_SUPABASE_URL, VITE_SUPABASE_KEY, VITE_NINJA_API_CITY_KEY, VITE_OPEN_WEATHER_API_KEY } = import.meta.env;
 
 function App() {
   const [citiesList, setCitiesList] = React.useState([]);
@@ -17,11 +15,27 @@ function App() {
   const [isScrollingToTop, setIsScrollingToTop] = React.useState(false);
   const [city, setCity] = React.useState('');
   const [active, setActive] = React.useState({ cityNumber: null, activationEvent: null });
-  const supabase = React.useMemo(() => createClient(REACT_APP_SUPABASE_URL, REACT_APP_SUPABASE_KEY), [
-    REACT_APP_SUPABASE_URL,
-    REACT_APP_SUPABASE_KEY,
-  ]);
-  // console.log(REACT_APP_NINJA_API_CITY_KEY);
+  const supabase = React.useMemo(
+    () => createClient(VITE_SUPABASE_URL, VITE_SUPABASE_KEY),
+    [VITE_SUPABASE_URL, VITE_SUPABASE_KEY]
+  );
+  const weatherStore = React.useMemo(
+    () => ({
+      active,
+      setActive,
+      city,
+      setCity,
+      citiesList,
+      setCitiesList,
+      weatherArchive,
+      setWeatherArchive,
+      isScrollingToTop,
+      setIsScrollingToTop,
+    }),
+    [active, city, citiesList, weatherArchive, isScrollingToTop]
+  );
+
+  // console.log(VITE_NINJA_API_CITY_KEY);
   React.useEffect(() => {
     getCitiesList().then((data) => setCitiesList(data));
   }, []);
@@ -152,7 +166,7 @@ function App() {
         ',' +
         countryCode +
         '&APPID=' +
-        REACT_APP_OPEN_WEATHER_API_KEY
+        VITE_OPEN_WEATHER_API_KEY
     );
   };
 
@@ -161,7 +175,7 @@ function App() {
     return await fetch('https://api.api-ninjas.com/v1/city?name=' + city, {
       method: 'GET',
       headers: {
-        'X-Api-Key': REACT_APP_NINJA_API_CITY_KEY,
+        'X-Api-Key': VITE_NINJA_API_CITY_KEY,
       },
     });
   };
@@ -177,88 +191,71 @@ function App() {
   // console.log(citiesList);
 
   return (
-    <div className="wrapper">
-      <h1 className="main-header">Hello from weather archive!</h1>
-      <div className="App">
-        <div className="leftside">
-          <h2 className="left-side-header">Cities list</h2>
-          <div className="lister">
-            <h3
-              onClick={(e) => {
-                if (active.cityNumber === null || active.cityNumber === 0) {
-                  setActive({ cityNumber: citiesList.length - 1, activationEvent: e });
-                  setCity(citiesList[citiesList.length - 1].city);
-                  setIsScrollingToTop(false);
-                } else {
-                  setActive((prev) => {
-                    return { cityNumber: prev.cityNumber - 1, activationEvent: e };
-                  });
-                  // console.log(active);
-                  setCity(citiesList[active.cityNumber - 1].city);
-                  setIsScrollingToTop(true);
-                }
+    <weatherContext.Provider value={weatherStore}>
+      <div className="wrapper">
+        <h1 className="main-header">Hello from weather archive!</h1>
+        <div className="App">
+          <div className="leftside">
+            <h2 className="left-side-header">Cities list</h2>
+            <div className="lister">
+              <h3
+                onClick={(e) => {
+                  if (active.cityNumber === null || active.cityNumber === 0) {
+                    setActive({ cityNumber: citiesList.length - 1, activationEvent: e });
+                    setCity(citiesList[citiesList.length - 1].city);
+                    setIsScrollingToTop(false);
+                  } else {
+                    setActive((prev) => {
+                      return { cityNumber: prev.cityNumber - 1, activationEvent: e };
+                    });
+                    // console.log(active);
+                    setCity(citiesList[active.cityNumber - 1].city);
+                    setIsScrollingToTop(true);
+                  }
+                }}
+                className="lister-button"
+              >
+                prev
+              </h3>
+              <h3
+                onClick={(e) => {
+                  if (active.cityNumber === null || active.cityNumber === citiesList.length - 1) {
+                    setActive({ cityNumber: 0, activationEvent: e });
+                    setCity(citiesList[0].city);
+                    setIsScrollingToTop(true);
+                  } else {
+                    setActive((prev) => {
+                      return { cityNumber: prev.cityNumber + 1, activationEvent: e };
+                    });
+                    // console.log(active);
+                    setCity(citiesList[active.cityNumber + 1].city);
+                    setIsScrollingToTop(false);
+                  }
+                }}
+                className="lister-button"
+              >
+                next
+              </h3>
+            </div>
+            {citiesList && <Cities />}
+            <button
+              className="button"
+              onClick={() => {
+                // console.log('button reload click');
+                getCitiesList().then((uniqueRows) => setCitiesList(uniqueRows));
               }}
-              className="lister-button"
             >
-              prev
-            </h3>
-            <h3
-              onClick={(e) => {
-                if (active.cityNumber === null || active.cityNumber === citiesList.length - 1) {
-                  setActive({ cityNumber: 0, activationEvent: e });
-                  setCity(citiesList[0].city);
-                  setIsScrollingToTop(true);
-                } else {
-                  setActive((prev) => {
-                    return { cityNumber: prev.cityNumber + 1, activationEvent: e };
-                  });
-                  // console.log(active);
-                  setCity(citiesList[active.cityNumber + 1].city);
-                  setIsScrollingToTop(false);
-                }
-              }}
-              className="lister-button"
-            >
-              next
-            </h3>
+              Reload cities list
+            </button>
           </div>
-          {citiesList && (
-            <Cities
-              active={active}
-              citiesList={citiesList}
-              isScrollingToTop={isScrollingToTop}
-              setIsScrollingToTop={setIsScrollingToTop}
-              setActive={setActive}
-              setCity={setCity}
-            />
-          )}
-          <button
-            className="button"
-            onClick={() => {
-              // console.log('button reload click');
-              getCitiesList().then((uniqueRows) => setCitiesList(uniqueRows));
-            }}
-          >
-            Reload cities list
-          </button>
-        </div>
 
-        <div className="rightside">
-          <h2 className="archive-body-header">{city ? 'Chosen city - ' + city : 'Select city'}</h2>
-          {citiesList && city && weatherArchive && weatherArchive.length > 0 && (
-            <WeatherArchive
-              city={city}
-              active={active}
-              setCity={setCity}
-              setIsScrollingToTop={setIsScrollingToTop}
-              citiesList={citiesList}
-              setActive={setActive}
-              archive={weatherArchive}
-            />
-          )}
+          <div className="rightside">
+            <ArchiveTitle city={city} />
+            {citiesList && city && weatherArchive.length > 0 && <WeatherArchive  archive={weatherArchive} />}
+          </div>
         </div>
       </div>
-    </div>
+    </weatherContext.Provider>
   );
 }
 

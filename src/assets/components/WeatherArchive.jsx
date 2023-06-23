@@ -1,7 +1,9 @@
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { weatherContext } from '../../App';
 
-function WeatherArchive({ city, archive, setIsScrollingToTop, citiesList, setCity, active, setActive }) {
+function WeatherArchive({ archive }) {
+  const { city, setIsScrollingToTop, citiesList, setCity, active, setActive } = React.useContext(weatherContext);
   // console.log(city, archive);
   if (archive.length < 2) {
     archive.push(archive[0]);
@@ -110,7 +112,7 @@ function WeatherArchive({ city, archive, setIsScrollingToTop, citiesList, setCit
               </LineChart>
             </ResponsiveContainer>
             <h2 className="temperature-graph-title">Archived weather conditions change graph for {city}</h2>
-            <ResponsiveContainer background={{ fill: 'rgba(0, 0, 0, 0.05)' }} aspect={1.7} width={500} >
+            <ResponsiveContainer background={{ fill: 'rgba(0, 0, 0, 0.05)' }} aspect={1.7} width={500}>
               <LineChart
                 data={archive}
                 margin={{

@@ -106,7 +106,7 @@ body {
 
 .grapf-container {
   display: flex;
- width: 600px;
+  width: 600px;
 }
 
 .lister-button-rotated90 {
@@ -168,18 +168,25 @@ body {
 }
 
 .button {
-  margin-top: 0.5rem;
+  margin: 0.5rem 0;
   align-self: center;
   background-color: #227950bd;
-  height: 60px;
-  width: 12rem;
   border: 1px solid antiquewhite;
+  font-size: 1.5em;
+  font-weight: bold;
   border-radius: 2rem;
-  font-size: x-large;
-  line-height: 1.5;
   box-shadow: #2c4027ac 0px 2px 5px;
   cursor: pointer;
-  color: antiquewhite
+  padding: 1% 9%;
+  color: antiquewhite;
+  transition: all .2s ease-out;
+}
+
+.button:hover,
+.button:active,
+.button:focus {
+  color: #227950bd;
+  background-color: antiquewhite
 }
 
 .active-record {

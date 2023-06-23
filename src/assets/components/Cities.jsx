@@ -1,13 +1,12 @@
 import React from 'react';
 import City from './City';
+import { weatherContext } from '../../App';
 
-const Cities = ({ active, setActive, isScrollingToTop, setIsScrollingToTop, citiesList, setCity }) => {
+const Cities = () => {
+  const { setActive, isScrollingToTop, citiesList, setCity } = React.useContext(weatherContext)
   const listRef = React.useRef();
   const scrollDown = (active) => {
     let paddingForScroll=5;
-    // console.log('setIsScrollingToTop',setIsScrollingToTop);
-    // console.log('isSrollingToTop', isScrollingToTop);
-    // setting padding in rows for scrollIntoView to make visible strings between activated element and top-bottom borders
     let listNumber = active.cityNumber;
     if (active.cityNumber + (isScrollingToTop ? -paddingForScroll : paddingForScroll) < paddingForScroll) {
       listNumber = 0;
@@ -20,7 +19,7 @@ const Cities = ({ active, setActive, isScrollingToTop, setIsScrollingToTop, citi
       block: 'nearest',
       inline: 'start',
     });
-    active.activationEvent.stopPropagation();
+    // active.activationEvent.stopPropagation();
     // listRef.current.children[active].addEventListener('scroll', () => console.log('rrrrr'));
   };
   const [cityInputValue, setcityInputValue] = React.useState('');
@@ -36,8 +35,8 @@ const Cities = ({ active, setActive, isScrollingToTop, setIsScrollingToTop, citi
 
   const changeHandler = (e) => {
     setcityInputValue(e.target.value);
-    e.stopPropagation();
-    e.preventDefault();
+    // e.stopPropagation();
+    // e.preventDefault();
   };
   // console.log(citiesList);
   return (
@@ -55,17 +54,13 @@ const Cities = ({ active, setActive, isScrollingToTop, setIsScrollingToTop, citi
         </form>
       </div>
       {citiesList &&
-        citiesList.map((city, i) => (
+        citiesList.map((cityInfo, i) => (
           <City
             key={i + 'city'}
             scrollDown={scrollDown}
-            setIsScrollingToTop={setIsScrollingToTop}
             setcityInputValue={setcityInputValue}
             activationIndex={i}
-            active={active}
-            setActive={setActive}
-            city={city}
-            setCity={setCity}
+            cityInfo={cityInfo}
           />
         ))}
     </div>
