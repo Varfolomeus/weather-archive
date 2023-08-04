@@ -267,3 +267,11 @@ body {
 .lister-button-rotated90:hover .triangle-foreground-right {
   border-left: 18px solid #fff
 }
+
+.viewer-counter {
+  position: relative;
+text-align: right;
+margin-right: 10%;
+font-weight: 700;
+font-size: 1em;
+}

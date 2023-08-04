@@ -14,6 +14,7 @@ function App() {
   const [weatherArchive, setWeatherArchive] = React.useState([]);
   const [isScrollingToTop, setIsScrollingToTop] = React.useState(false);
   const [city, setCity] = React.useState('');
+  const [countNumber, setCountNumber] = React.useState(0);
   const [active, setActive] = React.useState({ cityNumber: null, activationEvent: null });
   const supabase = React.useMemo(
     () => createClient(VITE_SUPABASE_URL, VITE_SUPABASE_KEY),
@@ -38,9 +39,10 @@ function App() {
   // console.log(VITE_NINJA_API_CITY_KEY);
   React.useEffect(() => {
     getCitiesList().then((data) => setCitiesList(data));
+    getviewCount().then((data) => setCountNumber(data))
   }, []);
+
   React.useEffect(() => {
-    // console.log('effect change city');
     getCitiesarchive(city);
   }, [city]);
 
@@ -56,6 +58,7 @@ function App() {
     }
     return data;
   };
+
   const getUpdatedCitytData = async (city) => {
     let { data, error } = await supabase
       .from('city_records')
@@ -66,7 +69,7 @@ function App() {
     }
     return data;
   };
-  // console.log('city', city);
+
   const getCitiesarchive = async (city) => {
     let countryCode = '';
     let parentData = [];
@@ -84,7 +87,6 @@ function App() {
         countryCode = parentData[0].weather_object.sys.country;
         // console.log('gap', gap, 'countryCode', countryCode);
       }
-      // console.log('gap', gap);
       if (gap > 2 && parentData.length !== 0) {
         (await getWeatherFromServer(city, countryCode)).json().then(async (data1) => {
           // debugger;
@@ -130,8 +132,6 @@ function App() {
               return;
             }
             getUpdatedCitytData(city).then((data2) => {
-              // debugger;
-              // console.log(data2);
               setWeatherArchive(data2);
             });
           });
@@ -143,7 +143,6 @@ function App() {
   };
 
   const storeDataToBase = async (cityToStore, temperatureToStore, timeStampToStore, weatherObject) => {
-    // debugger;
     const { error } = await supabase.from('weather_archive').insert({
       city: cityToStore,
       temperature: temperatureToStore,
@@ -179,6 +178,11 @@ function App() {
       },
     });
   };
+  const getviewCount = async() =>{
+    const yy = await supabase.from('counters').insert([ { site_name: 'wearch' } ]).select();
+    const message = await supabase.from('counters').select('site_name',{ count:'exact', head:true}).eq('site_name', 'wearch');  
+   return message.count
+  }
 
   const getCitiesList = async () => {
     const { data, error } = await supabase.from('distinct_city').select();
@@ -255,6 +259,7 @@ function App() {
           </div>
         </div>
       </div>
+      <div className="viewer-counter">{`site viewed ${countNumber} times`}</div>
     </weatherContext.Provider>
   );
 }
